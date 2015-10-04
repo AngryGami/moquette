@@ -15,8 +15,6 @@
  */
 package org.eclipse.moquette.parser.netty;
 
-import android.util.Log;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.CorruptedFrameException;
@@ -33,14 +31,12 @@ class PublishDecoder extends DemuxDecoder {
 
     @Override
     void decode(AttributeMap ctx, ByteBuf in, List<Object> out) throws Exception {
-        Log.i("moquette", "decode invoked with buffer " + in);
         in.resetReaderIndex();
         int startPos = in.readerIndex();
 
         //Common decoding part
         PublishMessage message = new PublishMessage();
         if (!decodeCommonHeader(message, in)) {
-            Log.i("moquette", "decode ask for more data after " + in);
             in.resetReaderIndex();
             return;
         }
